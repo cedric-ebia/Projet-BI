@@ -217,3 +217,5 @@ create table dwh_adresse (
     constraint pk_dwh_adresse primary key (id_client));
 
 /*** Ajout clé étrangère (contrainte d'intégrité) pour idsource et id_client ***/
+
+/*test bis*/
