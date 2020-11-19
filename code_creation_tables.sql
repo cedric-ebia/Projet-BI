@@ -1,11 +1,11 @@
-/************Script permettant de crÈer les diffÈrentes tables**********************/
+/************Script permettant de cr√©er les diff√©rentes tables**********************/
 /*****************************************/
 /* Numero de version : 1.0.0             */
 /* Date Livraison    : 19/11/2020        */
 /*****************************************/
 /*******************************************************************************************************************************************/
-/* Programme            : script1.sql (Script permettant de crÈer les diffÈrentes tables SAS et DWH)				                       */
-/* PÈrimËtre            : Datawarehouse PrÍt ‡ porter                                                                                      */
+/* Programme            : script1.sql (Script permettant de cr√©er les diff√©rentes tables SAS et DWH)				                       */
+/* P√©rim√®tre            : Datawarehouse Pr√™t √† porter                                                                                      */
 /*                                                                                                                                         */
 /* Domaine              : Retail SIAD                                                                                                      */
 /*                                                                                                                                         */
@@ -14,7 +14,7 @@
 /* Date                 : 19/11/2020 Initialisation                                                                                        */
 /*-----------------------------------------------------------------------------------------------------------------------------------------*/
 
-/*CrÈation de la table qui servira ‡ recevoir le fichier avant son intÈgration dans les tables SAS*/
+/*Cr√©ation de la table qui servira √† recevoir le fichier avant son int√©gration dans les tables SAS*/
 create table base_source
     (lignes varchar2(2000));
 /**Exemple de chargement de nos fichiers dans la table base_source***/
@@ -31,7 +31,7 @@ If you rely on empty string and NULL being the same thing, you should use VARCHA
 
 
 
----- 1) CrÈation des diffÈrentes tables SAS;
+---- 1) Cr√©ation des diff√©rentes tables SAS;
 /*SAS Compte*/
 
 create table sas_client(
@@ -46,7 +46,7 @@ create table sas_client(
     Nom varchar2(255),
     date_anniversaire varchar2(10),
     Sexe number(5),
-    Couleur_prÈfÈrÈe number(5),
+    Couleur_pr√©f√©r√©e number(5),
     Fidelite number(5),
     idsource number);
 
@@ -97,7 +97,7 @@ create table sas_adresse (
     ville varchar2(50),
     code_postal varchar2(10),
     pays number(5),
-    qualitÈ number(5),
+    qualit√© number(5),
     idsource number);
     
 ---  6) SAS_source;
@@ -115,8 +115,8 @@ create table sas_source (
     Motif varchar2(255),
     constraint pk_source primary key (idsource);
 
-/*** IncrÈmentation de l'idsource dans la table sas_source***/
---- SÈquence;
+/*** Incr√©mentation de l'idsource dans la table sas_source***/
+--- S√©quence;
 create sequence seq_source increment by 1 start with 1;
 --- Trigger;
 create or replace trigger trg_source before
@@ -126,9 +126,9 @@ create or replace trigger trg_source before
         select seq_source into: new.idsource
         from dual;
     end;
-/**** Fin de l'incrÈmentation pour l'idsource ****/
+/**** Fin de l'incr√©mentation pour l'idsource ****/
 
---- CrÈation des diffÈrentes tables du datawarehouse;
+--- Cr√©ation des diff√©rentes tables du datawarehouse;
 
 --- DWH_compte;
 
@@ -140,6 +140,13 @@ create table dwh_compte(
     magasin_rattachement number(9),
     idsource number,
     constraint pk_dwh_compte primary key (id_compte);
+
+/*** Incr√©mentation de l'id_compte ***/
+
+
+
+/*** Ajout cl√© √©trang√®re (contrainte d'int√©grit√©) pour idsource ***/
+
 
 
 --- DWH_client;
@@ -154,12 +161,18 @@ create table dwh_client(
     Nom varchar2(255),
     date_anniversaire varchar2(10),
     Sexe number(5),
-    Couleur_prÈfÈrÈe number(5),
+    Couleur_pr√©f√©r√©e number(5),
     Fidelite number(5),
     idsource number,
     constraint pk_dwh_client primary key (id_client));
 
-/** Au niveau de l'auto-incrÈment des diffÈrentes clÈs **/    
+/*** Incr√©ment de l'id_client ***/   
+
+
+
+/*** Ajout cl√© √©trang√®re (contrainte d'int√©grit√©) pour idsource  ***/
+
+
 
 --- DWH_Telephone;
 
@@ -171,6 +184,8 @@ create table dwh_telephone (
     type number(5),
     idsource number,
     constraint pk_dwh_telephone primary key(id_client, type));
+
+/*** Ajout cl√© √©trang√®re (contrainte d'int√©grit√©) pour idsource et id_client ***/
     
 --- DWH_email;
 
@@ -182,6 +197,7 @@ create table dwh_email (
     idsource number,
     constraint pk_dwh_email primary key(id_client));
 
+/*** Ajout cl√© √©trang√®re (contrainte d'int√©grit√©) pour idsource et id_client ***/
 
 --- DWH_Adresse;
 
@@ -196,6 +212,8 @@ create table dwh_adresse (
     ville varchar2(50),
     code_postal varchar2(10),
     pays number(5),
-    qualitÈ number(5),
+    qualit√© number(5),
     idsource number,
     constraint pk_dwh_adresse primary key (id_client));
+
+/*** Ajout cl√© √©trang√®re (contrainte d'int√©grit√©) pour idsource et id_client ***/
