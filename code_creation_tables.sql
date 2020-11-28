@@ -172,7 +172,7 @@ create table dwh_client(
     Sexe number(5),
     Couleur_preferee number(5),
     Fidelite number(5),
-    idsource number,
+    id_source number,
     constraint pk_dwh_client primary key (id_client));
 
 /*** Incrément de l'id_client ***/   
@@ -200,7 +200,7 @@ create table dwh_telephone (
     status number(5),
     favori number(5),
     type number(5),
-    idsource number,
+    id_source number,
     constraint pk_dwh_telephone primary key(id_client, type));
 
 /*** Ajout clé étrangère (contrainte d'intégrité) pour idsource et id_client ***/
@@ -213,7 +213,7 @@ create table dwh_email (
     cle_client varchar(45),
     email varchar(255),
     status number (5),
-    idsource number,
+    id_source number,
     constraint pk_dwh_email primary key(id_client));
 
 /*** Ajout clé étrangère (contrainte d'intégrité) pour idsource et id_client ***/
@@ -233,7 +233,7 @@ create table dwh_adresse (
     code_postal varchar(10),
     pays number(5),
     qualite number(5),
-    idsource number,
+    id_source number,
     constraint pk_dwh_adresse primary key (id_client));
 
 /*** Ajout clé étrangère (contrainte d'intégrité) pour idsource et id_client ***/
