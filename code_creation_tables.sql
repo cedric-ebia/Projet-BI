@@ -48,7 +48,7 @@ create table sas_client(
     Sexe number(5),
     Couleur_préférée number(5),
     Fidelite number(5),
-    idsource number);
+    id_source number);
 
 --- 2) SAS_compte;
 
@@ -59,7 +59,7 @@ create table sas_compte(
     status number(5),
     Type number(5),
     magasin_rattachement number(9),
-    idsource number);
+    id_source number);
     
 --- 3) SAS_Telephone;
 
@@ -71,7 +71,7 @@ create table sas_telephone (
     status number(5),
     favori number(5),
     type number(5),
-    idsource number);
+    id_source number);
     
 --- 4) SAS_email;
 
@@ -81,7 +81,7 @@ create table sas_email(
     cle_client varchar(45),
     email varchar(255),
     status number (5),
-    idsource number);
+    id_source number);
     
 --- 5)SAS_Adresse;
 create table sas_adresse (
@@ -98,7 +98,7 @@ create table sas_adresse (
     code_postal varchar(10),
     pays number(5),
     qualité number(5),
-    idsource number);
+    id_source number);
     
 ---  6) SAS_source;
 
@@ -138,7 +138,7 @@ create table dwh_compte(
     status number(5),
     Type number(5),
     magasin_rattachement number(9),
-    idsource number,
+    id_source number,
     constraint pk_dwh_compte primary key (id_compte);
 
 /*** Incrémentation de l'id_compte ***/
