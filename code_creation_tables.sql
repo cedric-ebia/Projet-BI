@@ -128,6 +128,30 @@ create or replace trigger trg_source before
     end;
 /**** Fin de l'incrémentation pour l'idsource ****/
 
+/** Ajout de l'id_source comme clé étrangère des différentes tables SAS **/
+--  Pour la table sas_compte;
+alter table sas_compte;
+    add constraint fk_sas_compte foreign key (id_source) references sas_source(id_source);
+
+--  Pour la table sas_client;
+alter table sas_client;
+    add constraint fk_sas_client foreign key (id_source) references sas_source(id__source);
+
+--   Pour la table telephone;
+alter table sas_telephone;
+    add constraint fk_sas_telephone foreign key(id_source) references sas_source(id_source);
+    
+--  ¨Pour la table adresse;
+alter table sas_adresse;
+    add constraint fk_sas_adresse foreign key(id_source) references sas_adresse(id_source);
+    
+--  Pour la table email:
+alter table sas_email;
+    add constraint fk_sas_email foreign key(id_source) references sas_email(id_source):
+
+---- Validation de l'ensemble des modifications effectuées au niveau des tables sas;
+commit;
+
 --- Création des différentes tables du datawarehouse;
 
 --- DWH_compte;
