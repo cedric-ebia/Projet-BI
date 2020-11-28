@@ -16,7 +16,7 @@
 
 /*Création de la table qui servira à recevoir le fichier avant son intégration dans les tables SAS*/
 create table base_source
-    (lignes varchar2(2000));
+    (lignes varchar(2000));
 /**Exemple de chargement de nos fichiers dans la table base_source***/
 
 
@@ -25,26 +25,26 @@ create table base_source
 
 /*VARCHAR is reserved by Oracle to support distinction between NULL and empty string in future, as ANSI standard prescribes.
 
-VARCHAR2 does not distinguish between a NULL and empty string, and never will.
+varchar does not distinguish between a NULL and empty string, and never will.
 
-If you rely on empty string and NULL being the same thing, you should use VARCHAR2.*/
+If you rely on empty string and NULL being the same thing, you should use varchar.*/
 
 
 
 ---- 1) Création des différentes tables SAS;
-/*SAS Compte*/
+/*SAS client*/
 
 create table sas_client(
     /*type_ligne,*/
-    action varchar2(1),
-    cle_compte varchar2(45),
-    cle_client varchar2(45), 
+    action varchar(1),
+    cle_compte varchar(45),
+    cle_client varchar(45), 
     status number(5),
     type number(5),
     civilite number(5),
-    Prenom varchar2(255),
-    Nom varchar2(255),
-    date_anniversaire varchar2(10),
+    Prenom varchar(255),
+    Nom varchar(255),
+    date_anniversaire varchar(10),
     Sexe number(5),
     Couleur_préférée number(5),
     Fidelite number(5),
@@ -54,8 +54,8 @@ create table sas_client(
 
 create table sas_compte(
     /*type_ligne,*/
-    action varchar2(1)
-    cle_compte varchar2(45),
+    action varchar(1)
+    cle_compte varchar(45),
     status number(5),
     Type number(5),
     magasin_rattachement number(9),
@@ -65,9 +65,9 @@ create table sas_compte(
 
 create table sas_telephone (
     /*type_ligne,*/
-    action varchar2(1),
-    cle_client varchar2(45),
-    phone varchar2(45),
+    action varchar(1),
+    cle_client varchar(45),
+    phone varchar(45),
     status number(5),
     favori number(5),
     type number(5),
@@ -76,26 +76,26 @@ create table sas_telephone (
 --- 4) SAS_email;
 
 create table sas_email(
-    type_ligne varchar2(3),
-    action varchar2(1),
-    cle_client varchar2(45),
-    email varchar2(255),
+    type_ligne varchar(3),
+    action varchar(1),
+    cle_client varchar(45),
+    email varchar(255),
     status number (5),
     idsource number);
     
 --- 5)SAS_Adresse;
 create table sas_adresse (
     /*type_ligne,*/
-    action varchar2(1),
-    cle_client varchar2(45),
+    action varchar(1),
+    cle_client varchar(45),
     status number(5),
-    ligne1 varchar2(255),
-    ligne2 varchar2(255),
-    ligne3 varchar2(255),
-    ligne4 varchar2(255),
-    ligne5 varchar2(255),
-    ville varchar2(50),
-    code_postal varchar2(10),
+    ligne1 varchar(255),
+    ligne2 varchar(255),
+    ligne3 varchar(255),
+    ligne4 varchar(255),
+    ligne5 varchar(255),
+    ville varchar(50),
+    code_postal varchar(10),
     pays number(5),
     qualité number(5),
     idsource number);
@@ -104,16 +104,16 @@ create table sas_adresse (
 
 create table sas_source (
     /*type_ligne,*/
-    idsource number,
-    type_fichier varchar2(20),
+    id_source number,
+    type_fichier varchar(20),
     version number(2),
-    date varchar2(30)
-    source varchar2(30),
-    sequence varchar2(6),
+    date varchar(30)
+    source varchar(30),
+    sequence varchar(6),
     Date_integration date,
-    statut_integration varchar2(10),
-    Motif varchar2(255),
-    constraint pk_source primary key (idsource);
+    statut_integration varchar(10),
+    Motif varchar(255),
+    constraint pk_source primary key (id_source);
 
 /*** Incrémentation de l'idsource dans la table sas_source***/
 --- Séquence;
@@ -123,7 +123,7 @@ create or replace trigger trg_source before
     insert on sas_source
     for each row
     begin
-        select seq_source into: new.idsource
+        select seq_source into: new.id_source
         from dual;
     end;
 /**** Fin de l'incrémentation pour l'idsource ****/
@@ -134,7 +134,7 @@ create or replace trigger trg_source before
 
 create table dwh_compte(
     id_compte number,
-    cle_compte varchar2(45),
+    cle_compte varchar(45),
     status number(5),
     Type number(5),
     magasin_rattachement number(9),
@@ -143,9 +143,18 @@ create table dwh_compte(
 
 /*** Incrémentation de l'id_compte ***/
 
-
-
-/*** Ajout clé étrangère (contrainte d'intégrité) pour idsource ***/
+--- Séquence;
+create sequence seq_compte increment by 1 start with 1;
+--- Trigger;
+create or replace trigger trg_compte before
+    insert on dwh_compte
+    for each row
+    begin
+        select seq_compte into: new.id_compte
+        from dual;
+    end;
+/*** Fin de l'incrément pour l'id_compte***/
+/*** Ajout clé étrangère (contrainte d'intégrité) pour id_source ***/
 
 
 
@@ -157,9 +166,9 @@ create table dwh_client(
     status number(5),
     type number(5),
     civilite number(5),
-    Prenom varchar2(255),
-    Nom varchar2(255),
-    date_anniversaire varchar2(10),
+    Prenom varchar(255),
+    Nom varchar(255),
+    date_anniversaire varchar(10),
     Sexe number(5),
     Couleur_préférée number(5),
     Fidelite number(5),
@@ -168,6 +177,15 @@ create table dwh_client(
 
 /*** Incrément de l'id_client ***/   
 
+create sequence seq_client increment by 1 start with 1;
+--- Trigger;
+create or replace trigger trg_client before
+    insert on dwh_client
+    for each row
+    begin
+        select seq_client into: new.id_client
+        from dual;
+    end;
 
 
 /*** Ajout clé étrangère (contrainte d'intégrité) pour idsource  ***/
@@ -178,7 +196,7 @@ create table dwh_client(
 
 create table dwh_telephone (
     id_client number,
-    phone varchar2(45),
+    phone varchar(45),
     status number(5),
     favori number(5),
     type number(5),
@@ -186,36 +204,39 @@ create table dwh_telephone (
     constraint pk_dwh_telephone primary key(id_client, type));
 
 /*** Ajout clé étrangère (contrainte d'intégrité) pour idsource et id_client ***/
-    
+alter table dwh_telephone;
+    add constraint fk_telephone foreign key (id_client) references dwh_client(id_client)
 --- DWH_email;
 
 create table dwh_email (
     id_client number,
-    cle_client varchar2(45),
-    email varchar2(255),
+    cle_client varchar(45),
+    email varchar(255),
     status number (5),
     idsource number,
     constraint pk_dwh_email primary key(id_client));
 
 /*** Ajout clé étrangère (contrainte d'intégrité) pour idsource et id_client ***/
-
+alter table dwh_email;
+add constraint fk_email foreign key (id_client) references dwh_client(id_client;)
 --- DWH_Adresse;
 
 create table dwh_adresse (
     id_client number,
     status number(5),
-    ligne1 varchar2(255),
-    ligne2 varchar2(255),
-    ligne3 varchar2(255),
-    ligne4 varchar2(255),
-    ligne5 varchar2(255),
-    ville varchar2(50),
-    code_postal varchar2(10),
+    ligne1 varchar(255),
+    ligne2 varchar(255),
+    ligne3 varchar(255),
+    ligne4 varchar(255),
+    ligne5 varchar(255),
+    ville varchar(50),
+    code_postal varchar(10),
     pays number(5),
     qualité number(5),
     idsource number,
     constraint pk_dwh_adresse primary key (id_client));
 
 /*** Ajout clé étrangère (contrainte d'intégrité) pour idsource et id_client ***/
-
+alter table dwh_adresse;
+    add constraint fk_adresse foreign key (id_client) references dwh_client(id_client); 
 /*test bis*/
