@@ -46,7 +46,7 @@ create table sas_client(
     Nom varchar(255),
     date_anniversaire varchar(10),
     Sexe number(5),
-    Couleur_préférée number(5),
+    Couleur_preferee number(5),
     Fidelite number(5),
     id_source number);
 
@@ -97,7 +97,7 @@ create table sas_adresse (
     ville varchar(50),
     code_postal varchar(10),
     pays number(5),
-    qualité number(5),
+    qualite number(5),
     id_source number);
     
 ---  6) SAS_source;
@@ -170,7 +170,7 @@ create table dwh_client(
     Nom varchar(255),
     date_anniversaire varchar(10),
     Sexe number(5),
-    Couleur_préférée number(5),
+    Couleur_preferee number(5),
     Fidelite number(5),
     idsource number,
     constraint pk_dwh_client primary key (id_client));
@@ -232,7 +232,7 @@ create table dwh_adresse (
     ville varchar(50),
     code_postal varchar(10),
     pays number(5),
-    qualité number(5),
+    qualite number(5),
     idsource number,
     constraint pk_dwh_adresse primary key (id_client));
 
