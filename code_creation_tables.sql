@@ -35,12 +35,12 @@ If you rely on empty string and NULL being the same thing, you should use varcha
 /*SAS client*/
 
 create table sas_client(
-    /*type_ligne,*/
+    /*type_ligne*/
     action varchar(1),
     cle_compte varchar(45),
     cle_client varchar(45), 
     status number(5),
-    type number(5),
+    type_client number(5),
     civilite number(5),
     Prenom varchar(255),
     Nom varchar(255),
@@ -53,11 +53,11 @@ create table sas_client(
 --- 2) SAS_compte;
 
 create table sas_compte(
-    /*type_ligne,*/
-    action varchar(1)
+    /*type_ligne*/
+    action varchar(1),
     cle_compte varchar(45),
     status number(5),
-    Type number(5),
+    Type_compte number(5),
     magasin_rattachement number(9),
     id_source number);
     
@@ -70,7 +70,7 @@ create table sas_telephone (
     phone varchar(45),
     status number(5),
     favori number(5),
-    type number(5),
+    type_telephone number(5),
     id_source number);
     
 --- 4) SAS_email;
@@ -106,10 +106,10 @@ create table sas_source (
     /*type_ligne,*/
     id_source number,
     type_fichier varchar(20),
-    version number(2),
-    date varchar(30)
-    source varchar(30),
-    sequence varchar(6),
+    version_fichier number(2),
+    date_fichier varchar(30)
+    source_fichier varchar(30),
+    sequence_fichier varchar(6),
     Date_integration date,
     statut_integration varchar(10),
     Motif varchar(255),
@@ -117,6 +117,7 @@ create table sas_source (
 
 /*** Incrémentation de l'idsource dans la table sas_source***/
 --- Séquence;
+drop sequence seq_source;
 create sequence seq_source increment by 1 start with 1;
 --- Trigger;
 create or replace trigger trg_source before
@@ -160,7 +161,7 @@ create table dwh_compte(
     id_compte number,
     cle_compte varchar(45),
     status number(5),
-    Type number(5),
+    Type_compte number(5),
     magasin_rattachement number(9),
     id_source number,
     constraint pk_dwh_compte primary key (id_compte);
@@ -168,6 +169,7 @@ create table dwh_compte(
 /*** Incrémentation de l'id_compte ***/
 
 --- Séquence;
+drop sequence seq_compte;
 create sequence seq_compte increment by 1 start with 1;
 --- Trigger;
 create or replace trigger trg_compte before
@@ -188,7 +190,7 @@ create table dwh_client(
     id_client number,
     id_compte number,
     status number(5),
-    type number(5),
+    type_client number(5),
     civilite number(5),
     Prenom varchar(255),
     Nom varchar(255),
@@ -200,7 +202,7 @@ create table dwh_client(
     constraint pk_dwh_client primary key (id_client));
 
 /*** Incrément de l'id_client ***/   
-
+drop sequence seq_client;
 create sequence seq_client increment by 1 start with 1;
 --- Trigger;
 create or replace trigger trg_client before
@@ -212,8 +214,9 @@ create or replace trigger trg_client before
     end;
 
 
-/*** Ajout clé étrangère (contrainte d'intégrité) pour idsource  ***/
-
+/*** Ajout clé étrangère (contrainte d'intégrité) pour id_compte  ***/
+alter table dwh_client;
+    add constraint fk_client foreign key(id_compte) references dwh_compte(id_compte);
 
 
 --- DWH_Telephone;
@@ -223,9 +226,9 @@ create table dwh_telephone (
     phone varchar(45),
     status number(5),
     favori number(5),
-    type number(5),
+    type_telephone number(5),
     id_source number,
-    constraint pk_dwh_telephone primary key(id_client, type));
+    constraint pk_dwh_telephone primary key(id_client, type_telephone));
 
 /*** Ajout clé étrangère (contrainte d'intégrité) pour idsource et id_client ***/
 alter table dwh_telephone;
