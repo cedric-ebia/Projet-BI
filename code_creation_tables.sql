@@ -275,7 +275,32 @@ create or replace trigger trg_client before
     end;
 
 
+--- Création des différentes tables de transcodification;
+    /* Trans_client */
+create table trans_client(
+    nom_variable varchar(30),
+    codage number(5),
+    libelle varchar(30)
+);
+    /* Trans_adresse */
 
+create table trans_adresse(
+    pays_code number(5),
+    pays_libelle varchar(30)
+);
+
+    /* Trans_compte */
+create table trans_compte(
+    nom_variable varchar(30),
+    codage number(5),
+    libelle varchar(30)
+);
+
+    /* Trans_telephone */
+create table trans_telephone(
+    type_code number(5),
+    type_libelle varchar(30)
+);
 
 --- Suppression des tables;
 /*drop table base_source;
