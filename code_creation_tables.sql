@@ -324,3 +324,96 @@ drop trigger trg_source;
 drop sequence seq_source;
 drop sequence seq_compte;
 drop sequence seq_client;*/
+                                           
+/**** Script de création des différentes tables de rejet ****/
+
+--- Pour la table de rejet compte;
+create table rejet_compte(
+    cle_compte varchar(45),
+    status number(5),
+    Type_compte number(5),
+    magasin_rattachement number(9),
+    id_source number(10));
+    
+/* Ajout de la clé étrangère concernant l'id_source */
+alter table rejet_compte 
+    add constraint fk_rejet_compte foreign key (id_source) references sas_source(id_source);
+    ------------ Potentiellement, ajout des champs action;
+    /*alter table rejet_compte
+        add(action varchar(1));*/
+
+--- Pour la table de rejet client;
+create table rejet_client(
+    cle_compte varchar(45),
+    cle_client varchar(45), 
+    status number(5),
+    type_client number(5),
+    civilite number(5),
+    Prenom varchar(255),
+    Nom varchar(255),
+    date_anniversaire varchar(10),
+    Sexe number(5),
+    Couleur_preferee number(5),
+    Fidelite number(5),
+    id_source number(10));
+
+/* Ajout de la clé étrangère concernant l'id_source */
+alter table rejet_client 
+    add constraint fk_rejet_client foreign key (id_source) references sas_source(id_source);
+    ------------ Potentiellement, ajout des champs action;
+    /*alter table rejet_client
+        add(action varchar(1));*/
+
+--- Pour la table de rejet_email;
+create table rejet_email(
+    cle_client varchar(45),
+    email varchar(255),
+    status number (5),
+    id_source number(10));
+
+/* Ajout de la clé étrangère concernant l'id_source */
+alter table rejet_email 
+    add constraint fk_rejet_email foreign key (id_source) references sas_source(id_source);
+    ------------ Potentiellement, ajout des champs action;
+    /*alter table rejet_email
+        add(action varchar(1));*/   
+        
+--- Pour la table de rejet_telephone;
+create table rejet_telephone(
+    cle_client varchar(45),
+    phone varchar(45),
+    status number(5),
+    favori number(5),
+    type_telephone number(5),
+    id_source number(10));
+    
+/* Ajout de la clé étrangère concernant l'id_source */
+alter table rejet_telephone 
+    add constraint fk_rejet_telephone foreign key (id_source) references sas_source(id_source);
+    ------------ Potentiellement, ajout des champs action;
+    /*alter table rejet_telephone
+        add(action varchar(1));*/    
+
+--- Pour la table de rejet_adresse;
+create table rejet_adresse(
+    cle_client varchar(45),
+    status number(5),
+    ligne1 varchar(255),
+    ligne2 varchar(255),
+    ligne3 varchar(255),
+    ligne4 varchar(255),
+    ligne5 varchar(255),
+    ville varchar(50),
+    code_postal varchar(10),
+    pays number(5),
+    qualite number(5),
+    id_source number(10));
+
+/* Ajout de la clé étrangère concernant l'id_source */
+alter table rejet_adresse
+    add constraint fk_rejet_adresse foreign key (id_source) references sas_source(id_source);
+    ------------ Potentiellement, ajout des champs action;
+    /*alter table rejet_adresse
+        add(action varchar(1));*/ 
+commit;
+
