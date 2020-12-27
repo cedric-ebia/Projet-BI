@@ -149,12 +149,12 @@ commit;
 
 create table dwh_compte(
     id_compte number(10),
-    cle_compte varchar(45),
-    status number(5),
-    Type_compte number(5),
+    cle_compte varchar(45) not null,
+    status number(5) not null,
+    Type_compte number(5) not null,
     magasin_rattachement number(9),
-    id_source number(10),
-    constraint pk_dwh_compte primary key (id_compte));
+    id_source number(10) not null,
+    constraint pk_dwh_compte primary key (cle_compte));
 
 
 --- DWH_client;
@@ -162,8 +162,8 @@ create table dwh_compte(
 create table dwh_client(
     id_client number(10),
     id_compte number(10),
-    status number(5),
-    type_client number(5),
+    status number(5) not null,
+    type_client number(5) not null,
     civilite number(5),
     Prenom varchar(255),
     Nom varchar(255),
@@ -171,50 +171,39 @@ create table dwh_client(
     Sexe number(5),
     Couleur_preferee number(5),
     Fidelite number(5),
-    id_source number(10),
-    constraint pk_dwh_client primary key (id_client));
-
-
-
-/*** Ajout clé étrangère (contrainte d'intégrité) pour id_compte  ***/
-alter table dwh_client
-    add constraint fk_client foreign key(id_compte) references dwh_compte(id_compte);
+    cle_compte varchar(45) not null,
+    cle_client varchar(45) not null,
+    id_source number(10) not null,
+    constraint pk_dwh_client primary key (cle_client));
 
 
 --- DWH_Telephone;
 
 create table dwh_telephone (
-    id_client number(10),
-    phone varchar(45),
-    status number(5),
-    favori number(5),
-    type_telephone number(5),
-    id_source number(10),
+    id_client number(10) not null,
+    phone varchar(45) not null,
+    status number(5) not null,
+    favori number(5) not null,
+    type_telephone number(5) not null,
+    id_source number(10) not null,
     constraint pk_dwh_telephone primary key(id_client, type_telephone));
-
-/*** Ajout clé étrangère (contrainte d'intégrité) pour idsource et id_client ***/
-alter table dwh_telephone
-    add constraint fk_telephone foreign key (id_client) references dwh_client(id_client);
 
 --- DWH_email;
 
 create table dwh_email (
-    id_client number(10),
-    cle_client varchar(45),
-    email varchar(255),
-    status number (5),
-    id_source number(10),
+    id_client number(10) not null,
+    cle_client varchar(45) not null,
+    email varchar(255) not null,
+    status number (5) not null,
+    id_source number(10) not null,
     constraint pk_dwh_email primary key(id_client));
 
-/*** Ajout clé étrangère (contrainte d'intégrité) pour idsource et id_client ***/
-alter table dwh_email
-    add constraint fk_email foreign key (id_client) references dwh_client(id_client);
 
 --- DWH_Adresse;
 
 create table dwh_adresse (
     id_client number(10),
-    status number(5),
+    status number(5) not null,
     ligne1 varchar(255),
     ligne2 varchar(255),
     ligne3 varchar(255),
@@ -224,12 +213,9 @@ create table dwh_adresse (
     code_postal varchar(10),
     pays number(5),
     qualite number(5),
-    id_source number(10),
+    id_source number(10) not null,
+    cle_client varchar(45) not null,
     constraint pk_dwh_adresse primary key (id_client));
-
-/*** Ajout clé étrangère (contrainte d'intégrité) pour idsource et id_client ***/
-alter table dwh_adresse
-    add constraint fk_adresse foreign key (id_client) references dwh_client(id_client); 
     
 
 --- Création des différents séquences et des triggers;
@@ -302,28 +288,6 @@ create table trans_telephone(
     type_libelle varchar(30)
 );
 
---- Suppression des tables;
-/*drop table base_source;
-drop table sas_adresse;
-drop table sas_client;
-drop table sas_email;
-drop table sas_telephone;
-drop table sas_source;
-drop table sas_compte;
-drop table dwh_compte;
-drop table dwh_client;
-drop table dwh_telephone;
-drop table dwh_email;
-drop table dwh_adresse;*/
-
---- Suppression des triggers et des sequences;
-/*drop trigger trg_client;
-drop trigger trg_compte;
-drop trigger trg_source;
-
-drop sequence seq_source;
-drop sequence seq_compte;
-drop sequence seq_client;*/
                                            
 /**** Script de création des différentes tables de rejet ****/
 
@@ -338,9 +302,6 @@ create table rejet_compte(
 /* Ajout de la clé étrangère concernant l'id_source */
 alter table rejet_compte 
     add constraint fk_rejet_compte foreign key (id_source) references sas_source(id_source);
-    ------------ Potentiellement, ajout des champs action;
-    /*alter table rejet_compte
-        add(action varchar(1));*/
 
 --- Pour la table de rejet client;
 create table rejet_client(
@@ -360,9 +321,6 @@ create table rejet_client(
 /* Ajout de la clé étrangère concernant l'id_source */
 alter table rejet_client 
     add constraint fk_rejet_client foreign key (id_source) references sas_source(id_source);
-    ------------ Potentiellement, ajout des champs action;
-    /*alter table rejet_client
-        add(action varchar(1));*/
 
 --- Pour la table de rejet_email;
 create table rejet_email(
@@ -374,10 +332,7 @@ create table rejet_email(
 /* Ajout de la clé étrangère concernant l'id_source */
 alter table rejet_email 
     add constraint fk_rejet_email foreign key (id_source) references sas_source(id_source);
-    ------------ Potentiellement, ajout des champs action;
-    /*alter table rejet_email
-        add(action varchar(1));*/   
-        
+          
 --- Pour la table de rejet_telephone;
 create table rejet_telephone(
     cle_client varchar(45),
@@ -390,10 +345,7 @@ create table rejet_telephone(
 /* Ajout de la clé étrangère concernant l'id_source */
 alter table rejet_telephone 
     add constraint fk_rejet_telephone foreign key (id_source) references sas_source(id_source);
-    ------------ Potentiellement, ajout des champs action;
-    /*alter table rejet_telephone
-        add(action varchar(1));*/    
-
+  
 --- Pour la table de rejet_adresse;
 create table rejet_adresse(
     cle_client varchar(45),
@@ -412,8 +364,7 @@ create table rejet_adresse(
 /* Ajout de la clé étrangère concernant l'id_source */
 alter table rejet_adresse
     add constraint fk_rejet_adresse foreign key (id_source) references sas_source(id_source);
-    ------------ Potentiellement, ajout des champs action;
-    /*alter table rejet_adresse
-        add(action varchar(1));*/ 
+
+/*** Validation des modifications effectuées ***/
 commit;
 
