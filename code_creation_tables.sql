@@ -39,15 +39,15 @@ create table sas_client(
     action varchar(1),
     cle_compte varchar(45),
     cle_client varchar(45), 
-    status number(5),
-    type_client number(5),
-    civilite number(5),
+    status varchar(255),
+    type_client varchar(255),
+    civilite varchar(255),
     Prenom varchar(255),
     Nom varchar(255),
     date_anniversaire varchar(10),
-    Sexe number(5),
-    Couleur_preferee number(5),
-    Fidelite number(5),
+    Sexe varchar(255),
+    Couleur_preferee varchar(255),
+    Fidelite varchar(255),
     id_source number(10));
 
 --- 2) SAS_compte;
@@ -56,8 +56,8 @@ create table sas_compte(
     /*type_ligne*/
     action varchar(1),
     cle_compte varchar(45),
-    status number(5),
-    Type_compte number(5),
+    status varchar(255),
+    Type_compte varchar(255),
     magasin_rattachement number(9),
     id_source number(10));
     
@@ -68,9 +68,9 @@ create table sas_telephone (
     action varchar(1),
     cle_client varchar(45),
     phone varchar(45),
-    status number(5),
-    favori number(5),
-    type_telephone number(5),
+    status varchar(255),
+    favori varchar(255),
+    type_telephone varchar(255),
     id_source number(10));
     
 --- 4) SAS_email;
@@ -80,7 +80,7 @@ create table sas_email(
     action varchar(1),
     cle_client varchar(45),
     email varchar(255),
-    status number (5),
+    status varchar (5),
     id_source number(10));
     
 --- 5)SAS_Adresse;
@@ -88,7 +88,7 @@ create table sas_adresse (
     /*type_ligne*/
     action varchar(1),
     cle_client varchar(45),
-    status number(5),
+    status varchar(255),
     ligne1 varchar(255),
     ligne2 varchar(255),
     ligne3 varchar(255),
@@ -96,8 +96,8 @@ create table sas_adresse (
     ligne5 varchar(255),
     ville varchar(50),
     code_postal varchar(10),
-    pays number(5),
-    qualite number(5),
+    pays varchar(255),
+    qualite varchar(255),
     id_source number(10));
     
 ---  6) SAS_source;
