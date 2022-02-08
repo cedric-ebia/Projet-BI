@@ -10,5 +10,5 @@ Pour ce faire, nous avons mis en place les flux d'alimentation du DWH avec l'out
 
 
 ```
-select * from Adresse;
+select * from Adresse
 ```
