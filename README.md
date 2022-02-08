@@ -7,8 +7,3 @@ Pour ce faire, nous avons mis en place les flux d'alimentation du DWH avec l'out
 ## Conceptualisation de l'intégration des données au sein du DWH
 
 ![alt text](https://github.com/cedric-ebia/Projet-BI/blob/main/Test%20concept.png?raw=true)
-
-
-```
-select * from Adresse
-```
